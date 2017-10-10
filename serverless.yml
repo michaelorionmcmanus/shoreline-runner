@@ -1,4 +1,4 @@
-service: serverless-chrome
+service: shoreline
 
 provider:
   name: aws
@@ -9,7 +9,7 @@ provider:
     CHROME_PATH: ./headless-chrome/headless_shell
 
 custom:
-  webpackIncludeModules: false # disable auto including modules
+  webpackIncludeModules: true # disable auto including modules
 
 plugins:
   - serverless-webpack
@@ -18,10 +18,13 @@ functions:
   run:
     description: Run headless Chromium
     memorySize: 1536
-    timeout: 30
+    timeout: 300
     handler: handler.run
 
-    events:
-      - http:
-          path: chrome
-          method: get
+resources:
+  Outputs:
+      LambdaRole:
+        Value: 
+          Ref: IamRoleLambdaExecution
+        Export:
+          Name: ${self:service}-${self:provider.stage}-lambda-role

@@ -1,6 +1,7 @@
 const path = require('path')
 const decompress = require('decompress')
 const webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals')
 
 const chromeTarball = path.join(__dirname, 'chrome/chrome-headless-lambda-linux-x64.tar.gz')
 const webpackDir = path.join(__dirname, '.webpack/')
@@ -18,8 +19,7 @@ function ExtractTarballPlugin (archive, to) {
 }
 
 module.exports = {
-  // entry: './src/handler',
-  entry: './src/handler',
+  entry: ['babel-polyfill', './src/handler'],
   target: 'node',
   module: {
     loaders: [
@@ -40,7 +40,7 @@ module.exports = {
     path: '.webpack',
     filename: 'handler.js', // this should match the first part of function handler in serverless.yml
   },
-  externals: ['aws-sdk'],
+  externals: ['aws-sdk', nodeExternals()],
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),

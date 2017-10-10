@@ -1,10 +1,13 @@
 import test from 'ava'
 import { run } from './handler'
-import captureScreenshotHandler from './handlers/captureScreenshot'
 
-const testUrl = 'https://github.com/adieuadieu'
+const testUrl = 'https://google.com'
 const testEvent = {
-  queryStringParameters: { url: testUrl },
+  url: testUrl,
+  bucket: 'perf-metrics',
+  prefix: 'ABC',
+  objectKey: {},
+  headers: {},
 }
 const testContext = {}
 
@@ -16,8 +19,7 @@ test('run() with captureScreenshot handler', async (t) => {
       t.falsy(error)
       t.truthy(response.body)
       t.is(response.statusCode, 200)
-    },
-    captureScreenshotHandler,
+    }
   )
 
   t.notThrows(promise)

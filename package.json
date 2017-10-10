@@ -36,13 +36,14 @@
   "homepage": "https://github.com/adieuadieu/serverless-chrome",
   "dependencies": {
     "aws-sdk": "^2.49.0",
+    "child_process": "^1.0.2",
+    "chrome-launcher": "^0.8.1",
     "chrome-remote-interface": "^0.22.0",
     "got": "^6.7.1",
+    "lighthouse": "^2.5.0",
     "ps-node": "^0.1.6",
-    "uuid": "^3.0.1"
-  },
-  "devDependencies": {
-    "ava": "^0.19.1",
+    "uuid": "^3.0.1",
+    "webpack-node-externals": "^1.6.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
@@ -51,7 +52,10 @@
     "babel-preset-env": "^1.4.0",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.24.1",
-    "babel-runtime": "^6.23.0",
+    "babel-runtime": "^6.23.0"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
     "codacy-coverage": "^2.0.2",
     "coveralls": "^2.13.1",
     "decompress": "^4.1.0",
