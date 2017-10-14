@@ -4,10 +4,12 @@ import { run } from './handler'
 const testUrl = 'https://google.com'
 const testEvent = {
   url: testUrl,
-  bucket: 'perf-metrics',
+  bucket: 'perf-audit-results',
   prefix: 'ABC',
   objectKey: {},
-  headers: {},
+  headers: {
+    "BANANA": "PEEL"
+  },
 }
 const testContext = {}
 

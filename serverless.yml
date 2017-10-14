@@ -7,7 +7,13 @@ provider:
   region: us-west-2
   environment:
     CHROME_PATH: ./headless-chrome/headless_shell
-
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: "*"
 custom:
   webpackIncludeModules: true # disable auto including modules
 
@@ -17,11 +23,21 @@ plugins:
 functions:
   run:
     description: Run headless Chromium
-    memorySize: 1536
+    memorySize: 512
     timeout: 300
     handler: handler.run
+    vpc:
+      securityGroupIds:
+        - Ref: LambdaSecurityGroup
+      subnetIds: ${file(./deploy.yml):subnetIds}
 
 resources:
+  Resources:
+    LambdaSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupDescription: 'SG for Lambda'
+        VpcId: ${file(./deploy.yml):VpcId}
   Outputs:
       LambdaRole:
         Value: 

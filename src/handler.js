@@ -72,7 +72,12 @@ export async function run(event, context, callback) {
     console.error("Error in spawning Chrome");
     return callback(error);
   }
+
   let url = event.url
+  let disableDeviceEmulation = !!event.disableDeviceEmulation
+  let disableCpuThrottling = !!event.disableCpuThrottling
+  let disableNetworkThrottling = !!event.disableNetworkThrottling
+  let perfOnly = event.perfOnly
   let parsedUrl = urlParse.parse(url)
   let host = parsedUrl.host
   let path = parsedUrl.path
@@ -82,8 +87,16 @@ export async function run(event, context, callback) {
   flags.cookies = event.cookies;
   flags.cookieHost = host
   flags.cookieUrl = url
+  flags.disableDeviceEmulation = disableDeviceEmulation
+  flags.disableCpuThrottling = disableCpuThrottling
+  flags.disableNetworkThrottling = disableNetworkThrottling
+  let results
 
-  let results = await lighthouse(url, flags, perfConfig);
+  if (perfOnly) {
+    results = await lighthouse(url, flags, perfConfig);
+  } else {
+    results = await lighthouse(url, flags);
+  }
 
   let now = Date.now()
   let prefix = event.prefix 
